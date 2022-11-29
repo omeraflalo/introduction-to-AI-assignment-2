@@ -1,11 +1,9 @@
-
-
 def alphabeta(current_game):
     """
     :param current_game: the first GameClass object of the game
     :return: result of recursive alphabeta
     """
-    return recursive_alphabeta(current_game, -1, current_game.max_steps()+2)
+    return recursive_alphabeta(current_game, -1, current_game.max_steps() + 2)
 
 
 def recursive_alphabeta(current_game, alpha, beta):
@@ -24,17 +22,21 @@ def recursive_alphabeta(current_game, alpha, beta):
         for move in moves:
             mx, prev_moves = recursive_alphabeta(move, alpha, beta)
             if v > mx:
-                v = mx
+                beta, v = mx, mx
                 best_move = move
                 best_prev_move = prev_moves
+            if alpha >= beta:
+                break
     if current_game.get_cur_player() == 2:  ## -- MAX player --
         v = 0
         moves = current_game.get_moves()
         for move in moves:
             mx, prev_moves = recursive_alphabeta(move, alpha, beta)
             if v < mx:
-                v = mx
+                alpha, v = mx, mx
                 best_move = move
                 best_prev_move = prev_moves
+            if alpha >= beta:
+                break
     best_prev_move.append(best_move)
     return v, best_prev_move
